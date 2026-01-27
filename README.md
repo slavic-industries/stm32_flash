@@ -36,17 +36,17 @@ Additionally connect GND from the RPI to the STM and supply power to the STM.
 
 ### Runnign the script
 
-1. Download repo and unzip the files in a known directory. For example '~/temp'.
+1. Download repo and unzip the files in a known directory. For example `~/temp`.
 2. Open a nerw terminal and go to that directory.
-3. Type 'sudo chmod +x stm32_flash.py' to make the script an executable file.
-4. Run the script with '.stm32_flash.py <serial_port> <firmware_file.bin>'
+3. Type `sudo chmod +x stm32_flash.py` to make the script an executable file.
+4. Run the script with `./stm32_flash.py <serial_port> <firmware_file.bin>`
 
 
 
 ## Tips
 
 - The serial port on the RPI  needs to be activated.
-  - Activate the serial port on Raspberry PI OS by writing 'sudo raspi-config' in the terminal
+  - Activate the serial port on Raspberry PI OS by writing `sudo raspi-config` in the terminal
 - Some STM32 microcontrollers have two boot pins (BOOT0 and BOOT1). In this case another pin on the RPI 40 pin connector will need to be used and the scrip modified.
 
 

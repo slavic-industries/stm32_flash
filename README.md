@@ -3,7 +3,7 @@ Flashing an STM32 microcontroller using a Raspberry PI over UART
 
 ---
 
-THis repository contains a simple script that allows an STM32 microcontroller to be flashed with new frimware through a Raspberry PI using UART.
+This repository contains a simple script that allows an STM32 microcontroller to be flashed with new frimware through a Raspberry PI using UART.
 
 ## Requirements
 

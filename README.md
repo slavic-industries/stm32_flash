@@ -37,7 +37,7 @@ Additionally connect GND from the RPI to the STM and supply power to the STM.
 ### Runnign the script
 
 1. Download repo and unzip the files in a known directory. For example `~/temp`.
-2. Open a nerw terminal and go to that directory.
+2. Open a new terminal and go to that directory.
 3. Type `sudo chmod +x stm32_flash.py` to make the script an executable file.
 4. Run the script with `./stm32_flash.py <serial_port> <firmware_file.bin>`
 

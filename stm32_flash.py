@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from glob import glob
 import sys
 import time
 import subprocess
@@ -46,14 +47,14 @@ def compile_firmware(firmware_location):
     subprocess.check_call(cmd)
 
 def flash_firmware(serial_port, firmware_location):
+    firmware = glob.glob(f"{firmware_location}/*.bin")[0]
     print("Flashing firmware...")
     cmd = [
-        "arduino-cli",
-        "upload",
+        "stm32flash",
+        "-w", f"{firmware_location}/{firmware}",
         "-v",
-        "-p", serial_port,
-        "-b", "STMicroelectronics:stm32:GenF4:pnum=BLACKPILL_F411CE ",
-        "--build-path", f"{firmware_location}/build"
+        "-g", FLASH_ADDRESS,
+        serial_port
     ]
     subprocess.check_call(cmd)
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from glob import glob
+import glob
 import sys
 import time
 import subprocess
@@ -24,34 +24,35 @@ def enter_bootloader():
     boot0.on()          # Activate BOOT1
     nrst.on()           # Activate Reset
     time.sleep(0.2)
-    nrst.off()           # Release Reset
+    nrst.off()          # Release Reset
     time.sleep(0.2)
 
 def exit_bootloader():
     print("Exiting bootloader, running firmware...")
     boot0.off()         # Release BOOT1
-    nrst.on()		# Activate Reset
+    nrst.on()		    # Activate Reset
     time.sleep(0.05)
-    nrst.off()		# Release Reset
+    nrst.off()		    # Release Reset
 
 def compile_firmware(firmware_location):
-    print("Flashing firmware...")
+    print("Compiling firmware...")
     cmd = [
         "arduino-cli",
         "compile",
         "-v",
         "-b", "STMicroelectronics:stm32:GenF4:pnum=BLACKPILL_F411CE ",
-        "--output-dir", "build",
+        "--output-dir", f"{firmware_location}/build",
         firmware_location
     ]
     subprocess.check_call(cmd)
 
 def flash_firmware(serial_port, firmware_location):
-    firmware = glob.glob(f"{firmware_location}/*.bin")[0]
+    firmware = glob.glob(f"{firmware_location}/build/*.bin")[0]
     print("Flashing firmware...")
+    print(f"File: {firmware}")
     cmd = [
         "stm32flash",
-        "-w", f"{firmware_location}/{firmware}",
+        "-w", firmware,
         "-v",
         "-g", FLASH_ADDRESS,
         serial_port

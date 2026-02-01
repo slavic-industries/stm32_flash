@@ -33,27 +33,40 @@ def exit_bootloader():
     time.sleep(0.05)
     nrst.off()		# Release Reset
 
-def flash_firmware(serial_port, firmware):
+def compile_firmware(firmware_location):
     print("Flashing firmware...")
     cmd = [
-        "stm32flash",
-        "-w", firmware,
+        "arduino-cli",
+        "compile",
         "-v",
-        "-g", FLASH_ADDRESS,
-        serial_port
+        "-b", "STMicroelectronics:stm32:GenF4:pnum=BLACKPILL_F411CE ",
+        "--output-dir", "build",
+        firmware_location
+    ]
+    subprocess.check_call(cmd)
+
+def flash_firmware(serial_port, firmware_location):
+    print("Flashing firmware...")
+    cmd = [
+        "arduino-cli",
+        "upload",
+        "-v",
+        "-p", serial_port,
+        "-b", "STMicroelectronics:stm32:GenF4:pnum=BLACKPILL_F411CE ",
+        "--build-path", f"{firmware_location}/build"
     ]
     subprocess.check_call(cmd)
 
 def main():
     if len(sys.argv) != 3:
-        print(f"Usage: {sys.argv[0]} <serial_port>  <firmware_file.bin>")
+        print(f"Usage: {sys.argv[0]} <serial_port>  <arduino_sketch_location>")
         sys.exit(1)
 
     serial_port = sys.argv[1]
-    firmware = sys.argv[2]
+    firmware_location = sys.argv[2]
 
-    if not os.path.isfile(firmware):
-        print(f"Error: file not found: {firmware}")
+    if not os.path.exists(f"{firmware_location}/build/Onstep.ino.bin"):
+        print(f"Error: firmware not compiled: {firmware_location}/build/Onstep.ino.bin")
         sys.exit(1)
 
     if not os.path.exists(serial_port):
@@ -62,7 +75,8 @@ def main():
 
     try:
         enter_bootloader()
-        flash_firmware(serial_port, firmware)
+        compile_firmware(firmware_location)
+        flash_firmware(serial_port, firmware_location)
         exit_bootloader()
         print("Flashing successful")
     except subprocess.CalledProcessError:

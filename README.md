@@ -1,6 +1,11 @@
 # stm32_flash
 Flashing an STM32 microcontroller using a Raspberry PI over UART
 
+**Note:** This branch compiles and uploads an Arduino sketch to the selected device over UART
+- Specify **serial port** and **.ino file location**
+- Uses `arduino-cli`
+
+
 ---
 
 This repository contains a simple script that allows an STM32 microcontroller to be flashed with new frimware through a Raspberry PI using UART.

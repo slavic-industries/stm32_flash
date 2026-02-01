@@ -66,8 +66,8 @@ def main():
     serial_port = sys.argv[1]
     firmware_location = sys.argv[2]
 
-    if not os.path.exists(f"{firmware_location}/build/Onstep.ino.bin"):
-        print(f"Error: firmware not compiled: {firmware_location}/build/Onstep.ino.bin")
+    if not os.path.exists(firmware_location):
+        print(f"Error: firmware location does not exist")
         sys.exit(1)
 
     if not os.path.exists(serial_port):
